@@ -23,6 +23,7 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::group(['middleware'=>'verifyToken'], function() {
     Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
 });
 
 // Route::group(['namespace'=>'API'], function() {

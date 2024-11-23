@@ -62,11 +62,20 @@ class AuthController extends Controller
     public function logout(Request $request) {
         // must open middleware\verifyToken file to show logic for this function
         try {
-            JWTAuth::invalidate($request->token);
+            JWTAuth::invalidate($request->token);  // this line to make logout and delete token from user
             return response()->json(['Message'=>'Logout Success']);
         } catch(Exception $e) {
             return response()->json(['Message'=>$e->getMessage()]);
         }
+    }
+
+    public function refresh(Request $request) {
+        $new_token = JWTAuth::refresh($request->token);
+        if($new_token):
+            return response()->json(['Messgae'=>$new_token]);
+        else:
+            return response()->json(['Message'=>'Error']);
+        endif;
     }
 
 
