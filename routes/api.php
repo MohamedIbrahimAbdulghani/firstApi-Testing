@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\CategoryController;
+use App\Models\Categories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +27,13 @@ Route::group(['middleware'=>'verifyToken'], function() {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
 });
+
+Route::post('create', [CategoryController::class, 'create']);
+Route::post('getAllCategories', [CategoryController::class, 'getAllCategories']);
+Route::post('getCategoryById/{id}', [CategoryController::class, 'getCategoryById']);
+Route::post('update/{id}', [CategoryController::class, 'update']);
+Route::post('delete/{id}', [CategoryController::class, 'delete']);
+
 
 // Route::group(['namespace'=>'API'], function() {
 //     Route::post('login', [AuthController::class, 'login']);

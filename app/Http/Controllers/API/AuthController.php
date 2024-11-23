@@ -72,7 +72,7 @@ class AuthController extends Controller
     public function refresh(Request $request) {
         $new_token = JWTAuth::refresh($request->token);
         if($new_token):
-            return response()->json(['Messgae'=>$new_token]);
+            return response()->json(['Message'=>$new_token]);
         else:
             return response()->json(['Message'=>'Error']);
         endif;
