@@ -21,6 +21,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
+Route::group(['middleware'=>'verifyToken'], function() {
+    Route::post('logout', [AuthController::class, 'logout']);
+});
+
 // Route::group(['namespace'=>'API'], function() {
 //     Route::post('login', [AuthController::class, 'login']);
 //     Route::post('register', [AuthController::class, 'register']);

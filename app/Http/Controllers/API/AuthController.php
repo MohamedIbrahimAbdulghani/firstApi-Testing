@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -55,6 +57,16 @@ class AuthController extends Controller
             return response()->json(['message'=>$user]);
         endif;
 
+    }
+
+    public function logout(Request $request) {
+        // must open middleware\verifyToken file to show logic for this function
+        try {
+            JWTAuth::invalidate($request->token);
+            return response()->json(['Message'=>'Logout Success']);
+        } catch(Exception $e) {
+            return response()->json(['Message'=>$e->getMessage()]);
+        }
     }
 
 
