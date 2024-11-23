@@ -49,10 +49,12 @@ class AuthController extends Controller
         $token = Auth::guard("api")->attempt($myInputs); // this is line to return my token
         if(!$token):
             return response()->json(['message'=>'Not Found Token']);
+        else:
+            $user = Auth::guard('api')->user();
+            $user->token = $token;
+            return response()->json(['message'=>$user]);
         endif;
-        $user = Auth::guard('api')->user();
-        $user->token = $token;
-        return response()->json(['message'=>$user]);
+
     }
 
 
