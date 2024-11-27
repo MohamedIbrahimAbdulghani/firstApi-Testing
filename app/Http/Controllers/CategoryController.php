@@ -19,16 +19,20 @@ class CategoryController extends Controller
         endif;
     }
 
-    public function getAllCategories() {
-        $category = Categories::all();
+    public function getAllCategories(Request $request) {
+        if($request->lang):
+            $category = Categories::select("id", "name_".app()->getLocale())->get();
+        else:
+            $category = Categories::all();
+        endif;
         if($category):
             return response()->json(['Message'=>$category ]);
         else:
             return response()->json(['Message'=>'Error']);
         endif;
     }
-    public function getCategoryById($id) {
-        $id = Categories::find($id);
+    public function getCategoryById(Request $request) {
+        $id = Categories::find($request->id);
         if($id):
             return response()->json(['Message'=>$id]);
         else:
