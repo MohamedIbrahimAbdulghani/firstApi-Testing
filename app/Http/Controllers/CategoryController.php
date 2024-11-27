@@ -2,41 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Traits\ApiHandler;
 use App\Models\Categories;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    use ApiHandler;
     public function create(Request $request) {
         $category = Categories::create([
             'name_ar'=>$request->name_ar,
             'name_en'=>$request->name_en,
         ]);
         if($category):
-            return response()->json(['Message'=>'Inserted Successfully']);
+            return $this->MessageSuccess('Inserted Successfully');
         else:
-            return response()->json(['Message'=>'Error']);
+            return $this->MessageError('Error');
         endif;
     }
 
     public function getAllCategories(Request $request) {
         if($request->lang):
-            $category = Categories::select("id", "name_".app()->getLocale())->get();
+            $category = Categories::select("id", "name_".$request->lang)->get();
         else:
             $category = Categories::all();
         endif;
         if($category):
-            return response()->json(['Message'=>$category ]);
+            return $this->ReturnData($category);
         else:
-            return response()->json(['Message'=>'Error']);
+            return $this->MessageError('Error');
         endif;
     }
     public function getCategoryById(Request $request) {
         $id = Categories::find($request->id);
         if($id):
-            return response()->json(['Message'=>$id]);
+            return $this->ReturnData($id);
         else:
-            return response()->json(['Message'=>'Category Is Not Found']);
+            return $this->MessageError('Category Is Not Found');
         endif;
     }
     public function update(Request $request) {
@@ -47,9 +49,9 @@ class CategoryController extends Controller
             'name_en'=>$request->name_en,
         ]);
         if($category):
-            return response()->json(['Message'=>$category]);
+            return $this->ReturnData($category);
         else:
-            return response()->json(['Message'=>'Category Is Not Found']);
+            return $this->MessageError('Category Is Not Found');
         endif;
     }
 
@@ -57,9 +59,9 @@ class CategoryController extends Controller
         $id = $request->id;
         $category = Categories::find($id)->delete();
         if($category):
-            return response()->json(['Message'=>'Delete Successful']);
+            return $this->MessageSuccess('Delete Successful');
         else:
-            return response()->json(['Message'=>'Category Is Not Found']);
+            return $this->MessageError('Category Is Not Found');
         endif;
     }
 

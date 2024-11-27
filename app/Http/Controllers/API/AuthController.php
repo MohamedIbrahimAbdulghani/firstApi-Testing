@@ -21,10 +21,6 @@ class AuthController extends Controller
             "password"=>"required|min:6"
         ];
         $validation = Validator::make($request->all(), $validationRules);
-        if($validation->fails()):
-            $code = $this->returnCodeAccordingToInput($validation);
-            return $this->returnValidationError($validation, $code);
-        endif;
         $users = User::create([
             'name'=>$request->name,
             'email'=>$request->email,
@@ -43,10 +39,6 @@ class AuthController extends Controller
             "password"=>"required"
         ];
         $validation = Validator::make($request->all(), $validationRules);
-        if($validation->fails()):
-            $code = $this->returnCodeAccordingToInput($validation);
-            return $this->returnValidationError($validation, $code);
-        endif;
         $myInputs = $request->only(['email', 'password']);
         $token = Auth::guard("api")->attempt($myInputs); // this is line to return my token
         if(!$token):

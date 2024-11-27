@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\ApiCheckPassword;
 use App\Http\Middleware\LangSwitcher;
 use App\Http\Middleware\verifyToken;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
@@ -67,5 +68,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'verifyToken'=>verifyToken::class,
         'LangSwitcher'=>LangSwitcher::class,
+        'ApiCheckPassword'=>ApiCheckPassword::class,
     ];
 }
